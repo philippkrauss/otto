@@ -9,12 +9,13 @@
 #include "LedMatrix.h"
 
 #if defined(ARDUINO) && ARDUINO >= 100
-  #include "Arduino.h"
+#include "Arduino.h"
 #else
-  #include "WProgram.h"
+#include "WProgram.h"
 #endif
 
-LedMatrix::LedMatrix(char ser_pin, char clk_pin, char rck_pin) {
+LedMatrix::LedMatrix(char ser_pin, char clk_pin, char rck_pin)
+{
 	memory = 0x00000000;
 	SER = ser_pin;
 	CLK = clk_pin;
@@ -28,60 +29,70 @@ LedMatrix::LedMatrix(char ser_pin, char clk_pin, char rck_pin) {
 	sendMemory();
 }
 
-void LedMatrix::writeFull(unsigned long value) {
+void LedMatrix::writeFull(unsigned long value)
+{
 	memory = value;
 	sendMemory();
 }
 
-unsigned long LedMatrix::readFull(void) {
+unsigned long LedMatrix::readFull(void)
+{
 	return memory;
 }
 
-void LedMatrix::setLed(char row, char column) {
-	if(row >= 1 && row <= ROWS && column >= 1 && column <= COLUMNS) {
-		memory |= (1L << (MATRIX_LENGTH - (row-1)*COLUMNS - (column)));
+void LedMatrix::setLed(char row, char column)
+{
+	if (row >= 1 && row <= ROWS && column >= 1 && column <= COLUMNS)
+	{
+		memory |= (1L << (MATRIX_LENGTH - (row - 1) * COLUMNS - (column)));
 		sendMemory();
 	}
 }
 
-void LedMatrix::unsetLed(char row, char column) {
-	if(row >= 1 && row <= ROWS && column >= 1 && column <= COLUMNS) {
-		memory &= ~(1L << (MATRIX_LENGTH - (row-1)*COLUMNS - (column)));
+void LedMatrix::unsetLed(char row, char column)
+{
+	if (row >= 1 && row <= ROWS && column >= 1 && column <= COLUMNS)
+	{
+		memory &= ~(1L << (MATRIX_LENGTH - (row - 1) * COLUMNS - (column)));
 		sendMemory();
 	}
 }
 
-void LedMatrix::clearMatrix(void) {
+void LedMatrix::clearMatrix(void)
+{
 	memory = 0x00000000;
 	sendMemory();
 }
 
-void LedMatrix::setEntireMatrix(void) {
+void LedMatrix::setEntireMatrix(void)
+{
 	memory = 0x3FFFFFFF;
 	sendMemory();
 }
 
-void LedMatrix::sendMemory(void) {
+void LedMatrix::sendMemory(void)
+{
 	int i;
-	
-	for(i = 0; i < MATRIX_LENGTH; i++) {
-		digitalWrite(SER, 1L & (memory >> i));	
+
+	for (i = 0; i < MATRIX_LENGTH; i++)
+	{
+		digitalWrite(SER, 1L & (memory >> i));
 		// ## adjust this delay to match with 74HC595 timing
-		asm volatile ("nop");
-		asm volatile ("nop");
-		asm volatile ("nop");
+		asm volatile("nop");
+		asm volatile("nop");
+		asm volatile("nop");
 		digitalWrite(CLK, 1);
 		// ## adjust this delay to match with 74HC595 timing
-		asm volatile ("nop");
-		asm volatile ("nop");
-		asm volatile ("nop");
-		digitalWrite(CLK, 0);	
+		asm volatile("nop");
+		asm volatile("nop");
+		asm volatile("nop");
+		digitalWrite(CLK, 0);
 	}
-	
+
 	digitalWrite(RCK, 1);
 	// ## adjust this delay to match with 74HC595 timing
-	asm volatile ("nop");
-	asm volatile ("nop");
-	asm volatile ("nop");
-	digitalWrite(RCK, 0);	
+	asm volatile("nop");
+	asm volatile("nop");
+	asm volatile("nop");
+	digitalWrite(RCK, 0);
 }

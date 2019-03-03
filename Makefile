@@ -2,7 +2,7 @@
 
 BOARD_TAG    = nano
 BOARD_SUB   = atmega328
-MONITOR_PORT = /dev/cu.usbserial-14410
+MONITOR_PORT = /dev/cu.usbserial-14110
 
 USER_LIB_PATH=lib
 
