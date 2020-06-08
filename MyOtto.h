@@ -47,6 +47,8 @@ class MyOtto {
     void showMouth(unsigned long mouth);
 
     float readDistance();
+    
+    int selectMode();
 };
 
 #endif // __MY_OTTO_H

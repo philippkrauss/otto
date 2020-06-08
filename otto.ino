@@ -6,6 +6,7 @@
 
 MyOtto otto;
 
+
 void setup()
 {
   Serial.begin(9600);
@@ -19,18 +20,11 @@ void setup()
 void loop()
 {
   otto.resetServos();
-  otto.showMouth(tongueOut_code);
-  
-  float distance = 100;
-  while(distance > 20)
-  {
-    Serial.println(distance);
-    distance = otto.readDistance();
-    delay(100);
+  switch(otto.selectMode()) {
+    case 0:
+    default:
+      danceSmoothCriminal();
+      break;
   }
-  
-  Serial.println("waiting");
-  
-  danceSmoothCriminal();
 }
 

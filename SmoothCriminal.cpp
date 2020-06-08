@@ -41,6 +41,11 @@ void timestamp(const char* msg)
   prev = now;
 }
 void danceSmoothCriminal(){
+  otto.showMouth(tongueOut_code);
+  while(otto.readDistance() > 20)
+  {
+    delay(100);
+  }
   otto.showMouth(heart_code);
   delay(14500);
   otto.showMouth(smile_code);
